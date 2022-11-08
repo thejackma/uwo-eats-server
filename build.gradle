@@ -5,6 +5,7 @@ plugins {
     id 'java'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'org.jetbrains.kotlin.jvm' version '1.7.20'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.20'
     id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
@@ -12,7 +13,6 @@ group = 'com.serverless'
 version = 'dev'
 
 description = """uwo-eats-server"""
-
 
 sourceCompatibility = 11
 targetCompatibility = 11
@@ -27,20 +27,24 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom 'com.amazonaws:aws-java-sdk-bom:1.11.688'
+        mavenBom 'software.amazon.awssdk:bom:2.18.11'
     }
 }
 
 dependencies {
     api(
-            'org.jetbrains.kotlin:kotlin-stdlib:1.7.20',
             'com.amazonaws:aws-lambda-java-core:1.2.1',
+            'com.amazonaws:aws-lambda-java-events:3.11.0',
             'com.amazonaws:aws-lambda-java-log4j2:1.5.1',
-            'org.apache.logging.log4j:log4j-api:2.19.0',
-            'org.apache.logging.log4j:log4j-core:2.19.0',
+            'com.fasterxml.jackson.core:jackson-annotations:2.13.4',
             'com.fasterxml.jackson.core:jackson-core:2.13.4',
             'com.fasterxml.jackson.core:jackson-databind:2.13.4.2',
-            'com.fasterxml.jackson.core:jackson-annotations:2.13.4'
+            'org.apache.logging.log4j:log4j-api:2.19.0',
+            'org.apache.logging.log4j:log4j-core:2.19.0',
+            'org.jetbrains.kotlin:kotlin-stdlib:1.7.20',
+            'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1',
+            'software.amazon.awssdk:dynamodb:2.18.11',
+            'software.amazon.awssdk:dynamodb-enhanced:2.18.11'
     )
 }
 

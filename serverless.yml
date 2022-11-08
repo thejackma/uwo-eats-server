@@ -21,12 +21,29 @@ provider:
           Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
 
 package:
-  artifact: build/libs/uwo-eats-server-${self:provider.stage}-all.jar
+  artifact: build/libs/${self:service}-${self:provider.stage}-all.jar
 
 functions:
   store-get:
-    handler: com.serverless.Handler
+    handler: uwoEats.api.StoreGetHandler
     events:
       - httpApi:
-          path: /store
+          path: /store/{id}
           method: get
+
+resources:
+  Resources:
+    StoreTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-${self:provider.stage}-store
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: N
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2

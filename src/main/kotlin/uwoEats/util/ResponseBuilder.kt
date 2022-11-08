@@ -8,11 +8,6 @@ import org.apache.logging.log4j.Logger
 import java.nio.charset.StandardCharsets
 import java.util.*
 
-val CORS_HEADERS = mapOf(
-    "Access-Control-Allow-Origin" to "*",
-    "Access-Control-Allow-Credentials" to "true"
-)
-
 class ResponseBuilder {
     companion object {
         inline fun build(block: ResponseBuilder.() -> Unit) = ResponseBuilder().apply(block).build()
@@ -23,7 +18,7 @@ class ResponseBuilder {
 
     var statusCode: Int = 200
     var rawBody: String? = null
-    var headers: Map<String, String>? = CORS_HEADERS
+    var headers: Map<String, String>? = emptyMap()
     var objectBody: Any? = null
     var binaryBody: ByteArray? = null
     var base64Encoded: Boolean = false

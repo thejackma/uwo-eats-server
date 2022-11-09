@@ -5,6 +5,7 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: java11
+  timeout: 30 # By default, the timeout is 6 seconds, which is too short for cold start
   stage: ${opt:stage, "dev"}
   region: ${opt:region, "ca-central-1"}
   httpApi:

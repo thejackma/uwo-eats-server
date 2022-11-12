@@ -24,6 +24,7 @@ class Category(
 @DynamoDbBean
 @Serializable
 class Item(
+    var id: Long = 0,
     var name: String = "",
     var price: Float = 0.0f,
 )

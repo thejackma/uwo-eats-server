@@ -14,7 +14,7 @@ import uwoEats.util.ResponseBuilder
 
 @Serializable
 private class Response(
-    val store: Store
+    val store: Store,
 )
 
 class Handler : MyRequestHandler {

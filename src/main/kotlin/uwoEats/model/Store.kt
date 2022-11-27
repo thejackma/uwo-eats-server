@@ -11,20 +11,13 @@ class Store(
     var id: Long = 0,
     var name: String = "",
     var address: String = "",
-    var categories: List<Category> = emptyList(),
-)
-
-@DynamoDbBean
-@Serializable
-class Category(
-    var name: String = "",
-    var items: List<Item> = emptyList(),
+    var items: Map<Long, Item> = emptyMap(),
 )
 
 @DynamoDbBean
 @Serializable
 class Item(
-    var id: Long = 0,
     var name: String = "",
     var price: Float = 0.0f,
+    var category: String = "",
 )

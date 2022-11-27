@@ -1,4 +1,4 @@
-package uwoEats.api
+package uwoEats.api.storeGet
 
 import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.events.APIGatewayV2HTTPEvent
@@ -17,7 +17,7 @@ private class Response(
     val store: Store
 )
 
-class StoreGetHandler : MyRequestHandler {
+class Handler : MyRequestHandler {
     override fun handleRequestSafely(input: APIGatewayV2HTTPEvent, context: Context): APIGatewayV2HTTPResponse {
         val id = input.pathParameters?.get("id")?.toLong() ?: throw InputError.build("id", "not exists")
 
@@ -34,6 +34,6 @@ class StoreGetHandler : MyRequestHandler {
     }
 
     companion object {
-        private val LOG = LogManager.getLogger(StoreGetHandler::class.java)
+        private val LOG = LogManager.getLogger(Handler::class.java)
     }
 }

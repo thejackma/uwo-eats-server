@@ -31,7 +31,7 @@ package:
 
 functions:
   store-get:
-    handler: uwoEats.api.StoreGetHandler
+    handler: uwoEats.api.storeGet.Handler
     events:
       - httpApi:
           path: /store/{id}

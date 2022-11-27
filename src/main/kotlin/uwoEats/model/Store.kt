@@ -8,7 +8,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbParti
 @Serializable
 class Store(
     @get:DynamoDbPartitionKey
-    var id: Long = 0,
+    var storeId: Long = 0,
     var name: String = "",
     var address: String = "",
     var items: Map<Long, Item> = emptyMap(),

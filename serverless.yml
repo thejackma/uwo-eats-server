@@ -34,7 +34,7 @@ functions:
     handler: uwoEats.api.storeGet.Handler
     events:
       - httpApi:
-          path: /store/{id}
+          path: /store/{storeId}
           method: get
 
 resources:
@@ -44,10 +44,10 @@ resources:
       Properties:
         TableName: ${self:service}-${self:provider.stage}-store
         AttributeDefinitions:
-          - AttributeName: id
+          - AttributeName: storeId
             AttributeType: N
         KeySchema:
-          - AttributeName: id
+          - AttributeName: storeId
             KeyType: HASH
         BillingMode: PROVISIONED
         ProvisionedThroughput:

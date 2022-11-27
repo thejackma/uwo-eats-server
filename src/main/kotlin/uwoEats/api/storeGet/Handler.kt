@@ -19,9 +19,9 @@ private class Response(
 
 class Handler : MyRequestHandler {
     override fun handleRequestSafely(input: APIGatewayV2HTTPEvent, context: Context): APIGatewayV2HTTPResponse {
-        val id = input.pathParameters?.get("id")?.toLong() ?: throw InputError.build("id", "not exists")
+        val storeId = input.pathParameters?.get("storeId")?.toLong() ?: throw InputError.build("storeId", "not exists")
 
-        val store = getStore(id)
+        val store = getStore(storeId)
 
         val response = Response(
             store

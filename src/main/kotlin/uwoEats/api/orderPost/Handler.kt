@@ -56,6 +56,7 @@ class Handler : MyRequestHandler {
             storeId,
             orderId = orderId,
             items = items,
+            storeName = store.name,
             totalPrice = totalPrice,
         )
 

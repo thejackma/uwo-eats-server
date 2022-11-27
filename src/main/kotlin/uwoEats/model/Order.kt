@@ -13,6 +13,7 @@ class Order(
     @get:DynamoDbSortKey
     var orderId: String = "",
     var items: List<Item> = emptyList(),
+    var storeName: String = "",
     var totalPrice: Float = 0.0f,
 ) {
     @DynamoDbBean

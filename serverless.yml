@@ -37,6 +37,20 @@ functions:
           path: /store/{storeId}
           method: get
 
+  order-get:
+    handler: uwoEats.api.orderGet.Handler
+    events:
+      - httpApi:
+          path: /order/{storeId}/{orderId}
+          method: get
+
+  order-post:
+    handler: uwoEats.api.orderPost.Handler
+    events:
+      - httpApi:
+          path: /order/{storeId}
+          method: post
+
 resources:
   Resources:
     StoreTable:
@@ -49,6 +63,25 @@ resources:
         KeySchema:
           - AttributeName: storeId
             KeyType: HASH
+        BillingMode: PROVISIONED
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+
+    OrderTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-${self:provider.stage}-order
+        AttributeDefinitions:
+          - AttributeName: storeId
+            AttributeType: N
+          - AttributeName: orderId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: storeId
+            KeyType: HASH
+          - AttributeName: orderId
+            KeyType: RANGE
         BillingMode: PROVISIONED
         ProvisionedThroughput:
           ReadCapacityUnits: 2

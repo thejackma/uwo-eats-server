@@ -1,12 +1,14 @@
 package uwoEats.db
 
 import software.amazon.awssdk.enhanced.dynamodb.TableSchema
+import uwoEats.model.Order
 import uwoEats.model.Store
 
 val STAGE = System.getenv("STAGE") ?: "dev"
 
 object TableName {
     val STORE = makeTableName("store")
+    val ORDER = makeTableName("order")
 
     private fun makeTableName(suffix: String): String {
         return "uwo-eats-server-$STAGE-$suffix"
@@ -15,4 +17,5 @@ object TableName {
 
 object Table {
     val store by lazy { ddbEnhancedClient.table(TableName.STORE, TableSchema.fromBean(Store::class.java))!! }
+    val order by lazy { ddbEnhancedClient.table(TableName.ORDER, TableSchema.fromBean(Order::class.java))!! }
 }

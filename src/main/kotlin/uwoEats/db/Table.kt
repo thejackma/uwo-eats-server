@@ -16,6 +16,6 @@ object TableName {
 }
 
 object Table {
-    val store by lazy { ddbEnhancedClient.table(TableName.STORE, TableSchema.fromBean(Store::class.java))!! }
-    val order by lazy { ddbEnhancedClient.table(TableName.ORDER, TableSchema.fromBean(Order::class.java))!! }
+    val store = ddbEnhancedClient.table(TableName.STORE, TableSchema.fromBean(Store::class.java))!!
+    val order = ddbEnhancedClient.table(TableName.ORDER, TableSchema.fromBean(Order::class.java))!!
 }

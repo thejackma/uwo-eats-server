@@ -5,11 +5,8 @@ frameworkVersion: '3'
 provider:
   name: aws
   stage: ${opt:stage, "dev"}
-  region: ${opt:region, "ca-central-1"}
+  region: ${opt:region, "us-east-1"}
   runtime: java11
-  architecture: arm64
-  environment:
-    JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
   timeout: 20 # By default, the timeout is 6 seconds, which is too short for cold start
   httpApi:
     cors: true
@@ -52,6 +49,22 @@ functions:
           method: post
 
 resources:
+  extensions:
+    # Accelerate cold start with SnapStart
+    # https://aws.amazon.com/blogs/aws/new-accelerate-your-lambda-functions-with-lambda-snapstart/
+    StoreDashgetLambdaFunction:
+      Properties:
+        SnapStart:
+          ApplyOn: PublishedVersions
+    OrderDashgetLambdaFunction:
+      Properties:
+        SnapStart:
+          ApplyOn: PublishedVersions
+    OrderDashpostLambdaFunction:
+      Properties:
+        SnapStart:
+          ApplyOn: PublishedVersions
+
   Resources:
     StoreTable:
       Type: AWS::DynamoDB::Table

@@ -1,7 +1,10 @@
-service: uwo-eats-server
+#infrastructure as code, setup AWS lambda for computation, DynamoDB for database storage, CloudWatch for logging, IAM for access management
+
+service: uwo-eats-server #server name
 
 frameworkVersion: '3'
 
+#AWS provider, development stage
 provider:
   name: aws
   stage: ${opt:stage, "dev"}
@@ -9,7 +12,7 @@ provider:
   runtime: java11
   timeout: 20 # By default, the timeout is 6 seconds, which is too short for cold start
   httpApi:
-    cors: true
+    cors: true #client server access manage, permit dynamodb actions
   iam:
     role:
       statements:
@@ -23,25 +26,27 @@ provider:
             - dynamodb:UpdateItem
           Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
 
+#upload jar file onto server to run
 package:
   artifact: build/libs/${self:service}-${self:provider.stage}-all.jar
 
+#lambda functions
 functions:
-  store-get:
+  store-get: #get /store/1 page content (category, item id, name, price)
     handler: uwoEats.api.storeGet.Handler
     events:
-      - httpApi:
+      - httpApi: #lambda helps to handle http request send to handler.kt     
           path: /store/{storeId}
           method: get
 
-  order-get:
+  order-get: #get order page content (restaurant id, order id)
     handler: uwoEats.api.orderGet.Handler
     events:
       - httpApi:
           path: /order/{storeId}/{orderId}
           method: get
 
-  order-post:
+  order-post: #upload new order request
     handler: uwoEats.api.orderPost.Handler
     events:
       - httpApi:
@@ -64,16 +69,17 @@ resources:
       Properties:
         SnapStart:
           ApplyOn: PublishedVersions
-
+    
+  #dynamodb table (store table, order table)
   Resources:
-    StoreTable:
+    StoreTable: 
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:service}-${self:provider.stage}-store
-        AttributeDefinitions:
+        AttributeDefinitions: 
           - AttributeName: storeId
             AttributeType: N
-        KeySchema:
+        KeySchema: #storeId(key)
           - AttributeName: storeId
             KeyType: HASH
         BillingMode: PROVISIONED
@@ -90,7 +96,7 @@ resources:
             AttributeType: N
           - AttributeName: orderId
             AttributeType: S
-        KeySchema:
+        KeySchema: #storeID(hash key for partitioning, distriubte msg onto dynamodb machine), orderId(range key for sequencing on particular machine)
           - AttributeName: storeId
             KeyType: HASH
           - AttributeName: orderId
